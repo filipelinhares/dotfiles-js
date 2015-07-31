@@ -1,0 +1,19 @@
+{
+  "name": "dotfiles",
+  "version": "1.0.0",
+  "description": "My dotfiles with JS <3",
+  "license": "MIT",
+  "repository": "username/repository",
+  "author": "Filipe <filipelinhares.com>",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "keywords": [
+    "dotfiles"
+  ],
+  "dependencies": {
+    "chalk": "^1.1.0",
+    "inquirer": "^0.9.0",
+    "shelljs": "^0.5.1"
+  }
+}
