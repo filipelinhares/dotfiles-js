@@ -29,7 +29,7 @@ var softwares = {
     'Firefox':          'firefox',
     'Firefox Nightly':  'firefox-nightly',
     'cURL':             'curl',
-    'ZSH':              'zsh'
+    'ZSH':              'zsh',
     'PostgreSQL':       'postgresql',
     'Postgres Contrib': 'postgresql-contrib',
     'Atom':             'atom',
@@ -75,5 +75,6 @@ var choices = [
 module.exports = {
   choices: choices,
   ppa:     softwaresPPA,
-  key:    softwaresKey
+  key:    softwaresKey,
+  softwares: softwares
 }
