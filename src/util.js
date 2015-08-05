@@ -1,6 +1,6 @@
 var shell = require('shelljs');
 var chalk = require('chalk');
-
+var inquirer = require('inquirer');
 
 exports.addKey = function (keys, source) {
    keys.forEach(function (key) {
@@ -13,11 +13,15 @@ exports.addKey = function (keys, source) {
   // shell.exec("sudo sh -c \"printf 'deb " + pao + "' >> '/etc/apt/sources.list.d/" + list + "'\"");
 };
 
-exports.gitClone = function (source, dest) {
+exports.gitClone = function (clones, source) {
   var dest = dest || '';
-  shell.exec('git clone ' + source + ' ' + dest);
+  clones.forEach(function (clone) {
+    if (source.hasOwnProperty(clone)) {
+      shell.echo(chalk.bold.red('Adding to key ') + source[clone].url);
+      shell.echo(chalk.bold.red('Adding to key ') + source[clone].dest);
+    }
+  });
 };
-
 
 exports.aptGetCommand = function (command) {
   shell.exec('sudo apt-get ' + command);
@@ -34,7 +38,18 @@ exports.addPPA = function (ppas, source) {
 
 exports.aptGetInstall = function (softwares) {
   softwares.forEach(function (software) {
-    shell.echo('Installing ' + software)
+    shell.echo('Installing ' + software);
   });
 };
 
+exports.question = function (name, choices, cb, question) {
+  var question = question || 'Mark what you want';
+  inquirer.prompt({
+    name: name,
+    message: question,
+    type: 'checkbox',
+    choices: choices
+  }, function (answers) {
+    cb(answers);
+  });
+};
