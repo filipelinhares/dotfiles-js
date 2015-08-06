@@ -46,23 +46,19 @@ var softwares = {
 
 // # Inquirer.js choices
 var choices = [
-  new inquirer.Separator('===> Browsers'),
   'Opera',
   'Opera Next',
   'Chrominium',
   'Chrome Unstable',
   'Firefox',
   'Firefox Nightly',
-  new inquirer.Separator('==> DB and Command line'),
   'cURL',
   'ZSH',
   'PostgreSQL',
   'Postgres Contrib',
-  new inquirer.Separator('===> Text Editors'),
   'Atom',
   'Sublime Text 3',
   'gVim',
-  new inquirer.Separator('===> Misc'),
   'Flash plugin',
   'VLC',
   'ScudCloud (Slack app)',
@@ -77,4 +73,4 @@ module.exports = {
   ppa:     softwaresPPA,
   key:    softwaresKey,
   softwares: softwares
-}
+};
