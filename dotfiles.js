@@ -4,6 +4,9 @@ var util   = require('./src/util');
 var aptGet = require('./softwares/apt-get');
 var clones = require('./softwares/git-clone');
 var wget   = require('./softwares/wget');
+var files  = require('./softwares/dotfiles');
+
+var pwd    = __dirname + '/';
 
 util.question('apt-get', aptGet.choices).then(function (answers) {
   util.addPPA(answers['apt-get'], aptGet.ppa);
@@ -14,11 +17,13 @@ util.question('apt-get', aptGet.choices).then(function (answers) {
   return util.question('wget', wget.choices);
 
 }).then(function (answers) {
-    util.installWithWget(answers['wget'], wget.url);
+  util.installWithWget(answers['wget'], wget.url);
 
   return util.question('git-clone', clones.choices);
 }).then(function (answers) {
   util.gitClone(answers['git-clone'], clones.repos);
+
+  return util.question('files', files.choices);
+}).then(function (answers) {
+  util.linkTo(answers['files'], files.dotfiles, pwd);
 });
-
-

@@ -11,7 +11,6 @@ exports.addKey = function (keys, source) {
     // shell.exec("sudo sh -c \"printf 'deb " + source[key].source + "' >> '/etc/apt/sources.list.d/" + source[key].list + "'\"");
     }
   });
-
 };
 
 exports.gitClone = function (clones, source) {
@@ -59,9 +58,15 @@ exports.installWithWget = function (urls, source) {
   });
 };
 
-exports.linkTo = function (from, to) {
-  shell.exec('rm -rf ' + to);
-  shell.exec('ln -s ' + from, to);
+exports.linkTo = function (files, source, pwd) {
+  files.forEach(function (file) {
+    if (source.hasOwnProperty(file)) {
+      shell.echo(chalk.bold.yellow('⚠ Linking ') + pwd + source[file].from);
+      // shell.exec('rm -rf ' + to);
+      // shell.exec('ln -s ' + from, to);
+      shell.echo(chalk.bold.green('✓ Linked ') + source[file].to);
+    }
+  });
 };
 
 exports.question = function (name, choices, cb, question) {
