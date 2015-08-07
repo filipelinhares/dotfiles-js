@@ -1,18 +1,11 @@
-![Node Marlene](images/logo.png)
+![Dotfiles js](images/logo.png)
 
-A minimal template to node packages.
+## Installation
 
-## Getting started
-- Create a new repo for your project on Github
-- In terminal run each line as a separate command
-
-```shell
-git clone git@github.com:filipelinhares/node-marlene.git your-project
-cd your-project
-rm -rf .git
-git init
-git remote add origin git@github.com:your-name/your-project.git
+```bash
+wget -qO- https://raw.githubusercontent.com/filipelinhares/dotfiles-js/master/install.sh | bash
 ```
+
 
 ## License
 [MIT](LICENSE.md) © Filipe LInhares
