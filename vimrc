@@ -44,15 +44,6 @@ endif
 " Let NeoNeoBundle manage NeoNeoBundle
 NeoBundle 'Shougo/neobundle.vim'
 
-" Instlall vimrpoc. is uses by unite and neocomplcache
-" for async searches and calls
-NeoBundle 'Shougo/vimproc', {
-\ 'build' : {
-\     'mac' : 'make -f make_mac.mak',
-\     'unix': g:make
-\    },
-\ }
-
 " Some support functions used by delimitmate, and snipmate
 NeoBundle 'vim-scripts/tlib'
 
@@ -60,11 +51,7 @@ NeoBundle 'vim-scripts/tlib'
 " Allow word for bookmark marks, and nice quickfix window with bookmark list
 " NeoBundle 'AndrewRadev/simple_bookmarks.vim'
 
-" plugin for fuzzy file search, most recent files list
-" and much more
-NeoBundle 'Shougo/unite.vim'
-
-" Snippets engine with good integration with neocomplcache
+" Snippets engine
 NeoBundle 'Shougo/neosnippet'
 " Default snippets for neosnippet, i prefer vim-snippets
 "NeoBundle 'Shougo/neosnippet-snippets'
@@ -73,9 +60,6 @@ NeoBundle 'honza/vim-snippets'
 
 " Dirr diff
 NeoBundle 'vim-scripts/DirDiff.vim'
-
-" Colorscheme solarazied for vim
-NeoBundle 'altercation/vim-colors-solarized'
 
 " Allow autoclose paired characters like [,] or (,),
 " and add smart cursor positioning inside it,
@@ -184,12 +168,6 @@ NeoBundle 'othree/javascript-libraries-syntax.vim'
 " Improved json syntax highlighting
 NeoBundle 'elzr/vim-json'
 
-" Code complete
-NeoBundle 'Shougo/neocomplcache.vim'
-
-" Most recent files source for unite
-NeoBundle 'Shougo/neomru.vim'
-
 " Plugin for chord mappings
 NeoBundle 'kana/vim-arpeggio'
 
@@ -197,24 +175,35 @@ NeoBundle 'kana/vim-arpeggio'
 " But not necessary with syntastics
 " NeoBundle 'walm/jshint.vim'
 
-" Personal packages
+" Fuzzy finder
 NeoBundle 'kien/ctrlp.vim'
+
+" HTML and CSS completations
 NeoBundle 'mattn/emmet-vim'
+
+" Slim syntax highlight
 NeoBundle 'slim-template/vim-slim'
-NeoBundle 'amirh/HTML-AutoCloseTag'
-NeoBundle 'alvan/vim-closetag'
-NeoBundle 'sickill/vim-monokai'
+
+" Awesome ruby things
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'tpope/vim-rails'
-NeoBundle 'therubymug/vim-dracula'
+
+" Git gutter, git diff live info
 NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'tristen/vim-sparkup'
+
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'andersoncustodio/vim-enter-indent'
+
+" Vim colorscheme
 NeoBundle 'tomasr/molokai'
-NeoBundle 'garbas/vim-snipmate'
+
+"
 NeoBundle 'sjl/gundo.vim'
+
+" Ag to Silver Searcher (search in files)
 NeoBundle 'rking/ag.vim'
+
+" Vim multiple cursor
 NeoBundle 'vim-addon-mw-utils'
 NeoBundle 'terryma/vim-multiple-cursors'
 
@@ -222,6 +211,7 @@ call neobundle#end()
 
 " Enable Indent in plugins
 filetype plugin indent on
+
 " Enable syntax highlighting
 syntax on
 
@@ -246,57 +236,26 @@ NeoBundleCheck
 " Bundles settings
 
 "-------------------------
-" Unite
 
-" Set unite window height
-let g:unite_winheight = 10
+"-------------------------
+" CtrlP
 
-" Start unite in insert mode by default
-let g:unite_enable_start_insert = 1
+nnoremap <silent><leader>; :CtrlP
 
-" Display unite on the bottom (or bottom right) part of the screen
-let g:unite_split_rule = 'botright'
+"-------------------------
+" Ag
 
-" Set short limit for max most recent files count.
-" It less unrelative recent files this way
-let g:unite_source_file_mru_limit = 100
+nnoremap <silent><leader>a :Ag!
 
-" Enable history for yanks
-let g:unite_source_history_yank_enable = 1
+"-------------------------
+" Gundo
 
-" Make samll limit for yank history,
-let g:unite_source_history_yank_limit = 40
+nnoremap <F5> :GundoToggle<CR>
 
-" Grep options Default for unite + supress error messages
-let g:unite_source_grep_default_opts = '-iRHns'
+"-------------------------
+" Emmet
 
-let g:unite_source_rec_max_cache_files = 99999
-
-" If ack exists use it instead of grep
-if executable('ack-grep')
-    " Use ack-grep
-    let g:unite_source_grep_command = 'ack-grep'
-    " Set up ack options
-    let g:unite_source_grep_default_opts = '--no-heading --no-color -a -H'
-    let g:unite_source_grep_recursive_opt = ''
-endif
-
-" Hotkey for open window with most recent files
-nnoremap <silent><leader>m :<C-u>Unite file_mru <CR>
-
-" Hotkey for open history window
-nnoremap <silent><leader>h :Unite -quick-match -max-multi-lines=2 -start-insert -auto-quit history/yank<CR>
-
-" Quick tab navigation
-nnoremap <silent><leader>' :Unite -quick-match -auto-quit tab<CR>
-
-" Fuzzy find files
-nnoremap <silent><leader>; :Unite file_rec/async:! -buffer-name=files -start-insert<CR>
-
-" Unite-grep
-nnoremap <silent><leader>/ :Unite grep:. -no-start-insert -no-quit -keep-focus -wrap<CR>
-
-
+imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 "-------------------------
 " NERDTree
@@ -400,7 +359,7 @@ let g:mustache_abbreviations = 1
 " vim-closetag
 
 " Enable for files with this extensions
-let g:closetag_filenames = "*.handlebars,*.html,*.xhtml,*.phtml"
+let g:closetag_filenames = "*.handlebars,*.html,*.xhtml,*.phtml, *.erb, *jsx"
 
 "-------------------------
 " Tern_for_vim
@@ -412,12 +371,6 @@ nmap <silent> <leader>tr :TernRefs<CR>
 
 " Smart variable rename
 nmap <silent> <leader>tn :TernRename<CR>
-
-"-------------------------
-" Solarized
-
-" if You have problem with background, uncomment this line
-" let g:solarized_termtrans=1
 
 "-------------------------
 " neosnippets
@@ -530,13 +483,15 @@ call arpeggio#map('i', '', 0, 'jk', '<ESC>')
 "--------------------------------------------------
 " Colorscheme
 
-" Use solarized colorscheme
-colorscheme solarized
-
 " Setting up light color scheme
 set background=dark
 " set highlighting for colorcolumn
 highlight ColorColumn ctermbg=darkGrey
+" Colorcheme
+colorscheme molokai
+let g:molokai_original = 1
+let g:rehash256 = 1
+
 "--------------------------------------------------
 " General options
 
@@ -575,6 +530,29 @@ endif
 
 " Interprete all files like binary and disable many features.
 " set binary
+
+"--------------------------------------------------
+" Tabnav options
+
+nnoremap t0  :tabfirst<CR>
+nnoremap t$  :tablast<CR>
+nnoremap th  :tabprev<CR>
+nnoremap tl  :tabnext<CR>
+nnoremap tt  :tabedit<CR>
+nnoremap td  :tabclose<CR>
+
+"--------------------------------------------------
+" Splitpanels options
+
+" Hotkeys
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" Preferences
+set splitbelow
+set splitright
 
 "--------------------------------------------------
 " Display options
@@ -650,11 +628,19 @@ set number
 set cursorline
 
 " maximum text length at 80 symbols, vim automatically breaks longer lines
-" set textwidth=80
+set textwidth=80
 
 " higlight column right after max textwidth
 set colorcolumn=+1
 
+" Set relative numbers
+set relativenumber
+
+" Font family and size
+set guifont=Monaco\ 12
+
+" Remove tab bar if using a gui
+set guioptions-=T
 
 "--------------------------------------------------
 " Tab options
@@ -777,15 +763,20 @@ set diffopt+=iwhite
 "--------------------------------------------------
 " Hotkeys
 
-" Open new tab
-nmap <silent><leader>to :tabnew .<CR>
-
 " Replace
 nmap <leader>s :%s//<left>
 vmap <leader>s :s//<left>
 
-" Moving between splits
-nmap <leader>w <C-w>w
+" Copy and paste gnome-vim
+nmap <C-V> "+gP
+imap <C-V> <ESC><C-V>a
+vmap <C-C> "+y
+
+" Disable directions key navigation
+noremap <up>    :echoerr 'Use K to go up'<CR>
+noremap <down>  :echoerr 'Use J to go down'<CR>
+noremap <left>  :echoerr 'Use H to go left'<CR>
+noremap <right> :echoerr 'Use L to go right'<CR>
 
 "--------------------------------------------------
 " Aautocmd
@@ -839,34 +830,13 @@ if has("autocmd")
 
 endif
 
-"" ------------- Personal configuration
-set guifont=Monaco\ 12
-set guioptions-=T
+" Set erb files to html
+autocmd BufNewFile,BufRead *.erb set filetype=html
 
-set background=light
-highlight ColorColumn ctermbg=lightGrey
-let g:closetag_filenames = "*.html,*.xhtml,*.erb"
-
-"" ------------ Serjão lindo! <3
-nmap <C-V> "+gP
-imap <C-V> <ESC><C-V>a
-vmap <C-C> "+y
-
-colorscheme molokai
-
-autocmd BufNewFile,BufRead *.html.erb set filetype=html
-
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
-
-set textwidth=80
-
+" Strip trailing whitespaces
 function! <SID>StripTrailingWhitespaces()
-    " Only strip whitespace if isn't a slim, haml or emblem file
-    if &filetype =~ 'slim' || &filetype =~ 'haml' || &filetype =~ 'emblem'
+    " Only strip whitespace if isn't a slim, haml or md file
+    if &filetype =~ 'slim' || &filetype =~ 'haml' || &filetype =~ 'md'
       return
     endif
     " Preparation: save last search, and cursor position.
@@ -881,35 +851,3 @@ function! <SID>StripTrailingWhitespaces()
 endfunction
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 autocmd BufNewFile,BufRead *.slim,*.haml setlocal list listchars=extends:>,precedes:<,eol:¬
-
-nnoremap <F5> :GundoToggle<CR>
-
-"" ------- Split panels
-
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
-set splitbelow
-set splitright
-
-"" -------- Tabs
-nnoremap t0  :tabfirst<CR>
-nnoremap t$  :tablast<CR>
-nnoremap th  :tabprev<CR>
-nnoremap tl  :tabnext<CR>
-nnoremap tt  :tabedit<CR>
-nnoremap td  :tabclose<CR>
-
-" Disable directions key navigation
-noremap <up>    :echoerr 'Use K to go up'<CR>
-noremap <down>  :echoerr 'Use J to go down'<CR>
-noremap <left>  :echoerr 'Use H to go left'<CR>
-noremap <right> :echoerr 'Use L to go right'<CR>
-
-set relativenumber
-
-let g:molokai_original = 1
-let g:rehash256 = 1
-
